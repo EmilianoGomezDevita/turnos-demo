@@ -10,7 +10,7 @@ Clave de demostración: `demoTurnos`.
 |---|---|
 | `/` | El cliente reserva su turno: servicio, profesional, día y hora, y sus datos |
 | `/confirmacion/` | Resumen del turno y botón **Confirmar por WhatsApp** |
-| | `/admin/` | Agenda del dueño (requiere clave de demo): confirmar, cancelar, bloquear horarios y editar servicios |
+|`/admin/` | Agenda del dueño (requiere clave de demo): confirmar, cancelar, bloquear horarios y editar servicios |
 | `/login/` | Pantalla de ingreso alternativa al modal del candado |
 
 ## Cómo correrla
