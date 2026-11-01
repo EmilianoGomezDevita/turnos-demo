@@ -1,0 +1,19 @@
+@use "../variables" as *;
+
+.confirmacion {
+  &__tarjeta, &__vacia { display: grid; gap: 14px; text-align: center; margin-top: 12px; }
+  &__icono {
+    width: 68px; height: 68px;
+    margin: 0 auto;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--primario-suave);
+    color: var(--primario-oscuro);
+    font-size: 2rem;
+    font-weight: 800;
+  }
+  &__titulo { font-size: 1.7rem; }
+  &__bajada { margin: 0; color: var(--texto-suave); }
+  &__resumen { text-align: left; margin: 8px 0 0; padding: 16px; background: var(--primario-muy-suave); border-radius: var(--radio-chico); }
+  .resumen__total { text-align: left; margin-bottom: 6px; }
+}

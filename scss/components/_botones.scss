@@ -1,0 +1,55 @@
+@use "../variables" as *;
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  font-weight: 800;
+  font-size: 1.02rem;
+  text-decoration: none;
+  transition: transform .15s, background .15s, box-shadow .15s;
+  &:active:not(:disabled) { transform: scale(.98); }
+  &:disabled { opacity: .45; cursor: not-allowed; }
+  &--primario {
+    background: var(--primario);
+    color: #fff;
+    box-shadow: var(--sombra);
+    &:hover:not(:disabled) { background: var(--primario-oscuro); }
+  }
+  &--secundario {
+    background: transparent;
+    color: var(--primario-oscuro);
+    border-color: var(--primario-borde);
+    &:hover { background: var(--primario-muy-suave); }
+  }
+  &--whatsapp {
+    background: var(--whatsapp);
+    color: #fff;
+    &:hover { filter: brightness(.94); }
+  }
+  &--ancho { width: 100%; }
+}
+
+.boton-chico {
+  min-height: 38px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--borde);
+  background: #fff;
+  font-weight: 700;
+  font-size: .88rem;
+  &:hover { border-color: var(--primario-borde); background: var(--primario-muy-suave); }
+  &--ok { border-color: var(--ok); color: var(--ok); &:hover { background: var(--ok-suave); } }
+  &--peligro { color: var(--peligro); &:hover { background: var(--peligro-suave); border-color: var(--peligro); } }
+}
+
+.acciones {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  .boton { flex: 1; }
+}

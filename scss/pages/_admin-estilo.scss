@@ -1,0 +1,126 @@
+@use "../variables" as *;
+
+.controles { display: grid; gap: 14px; margin-bottom: 18px; }
+.pestanas {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--primario-suave);
+  border-radius: 999px;
+  width: fit-content;
+}
+.pestana {
+  border: 0;
+  background: transparent;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: 800;
+  color: var(--primario-oscuro);
+  &.es-activa { background: var(--superficie); box-shadow: var(--sombra); }
+}
+.navegacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  &__fecha { font-family: $fuente-titulos; font-size: 1.2rem; font-weight: 600; margin: 0 8px; &::first-letter { text-transform: uppercase; } }
+  .selector { margin-left: auto; }
+}
+
+.metricas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.metrica {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-chico);
+  padding: 12px 14px;
+  span { display: block; font-size: .8rem; color: var(--texto-suave); }
+  strong { font-size: 1.3rem; font-family: $fuente-titulos; }
+}
+
+.lista-turnos { display: grid; gap: 10px; margin-bottom: 20px; }
+
+.turno {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 6px 14px;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-left: 5px solid var(--alerta);
+  border-radius: var(--radio-chico);
+  &__hora { font-weight: 800; font-size: 1.1rem; display: grid; small { font-weight: 600; color: var(--texto-suave); font-size: .78rem; } }
+  &__info { display: grid; span { color: var(--texto-suave); font-size: .9rem; } }
+  &__tel { font-size: .82rem !important; }
+  .estado { justify-self: start; grid-column: 2; }
+  &__acciones { grid-column: 1 / -1; display: flex; gap: 8px; justify-content: flex-end; &:empty { display: none; } }
+  &--confirmado { border-left-color: var(--ok); }
+  &--cancelado { border-left-color: var(--peligro); opacity: .65; .turno__info strong { text-decoration: line-through; } }
+  &--bloqueo {
+    border-left-color: var(--texto-suave);
+    background: repeating-linear-gradient(-45deg, var(--superficie) 0 10px, var(--primario-muy-suave) 10px 20px);
+  }
+  @media (min-width: $tablet) {
+    grid-template-columns: 70px 1fr auto auto;
+    .estado { grid-column: auto; }
+    &__acciones { grid-column: auto; }
+  }
+}
+
+.estado {
+  font-size: .78rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  &--pendiente { background: var(--alerta-suave); color: var(--alerta); }
+  &--confirmado { background: var(--ok-suave); color: var(--ok); }
+  &--cancelado { background: var(--peligro-suave); color: var(--peligro); }
+}
+
+.bloqueo-form {
+  summary { font-weight: 800; cursor: pointer; color: var(--primario-oscuro); }
+  &__grilla { display: grid; gap: 14px; margin-top: 16px; @media (min-width: $tablet) { grid-template-columns: repeat(4, 1fr); } }
+  .campo--ancho { grid-column: 1 / -1; }
+}
+
+.semana {
+  display: grid;
+  gap: 14px;
+  @media (min-width: $tablet) { grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: $escritorio) { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  &__dia {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    background: var(--primario-muy-suave);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    padding: 12px;
+    &.es-hoy { border-color: var(--primario); box-shadow: 0 0 0 2px var(--primario-suave); }
+    .turno { grid-template-columns: 1fr; padding: 10px 12px; gap: 4px; .estado, .turno__acciones { grid-column: 1; justify-content: flex-start; } }
+    .turno__hora { display: flex; gap: 6px; align-items: baseline; font-size: .95rem; }
+    .boton-chico { min-height: 32px; padding: 4px 10px; font-size: .8rem; }
+  }
+  &__titulo {
+    border: 0; background: none; padding: 0; text-align: left;
+    font-family: $fuente-titulos; font-size: 1.1rem; font-weight: 600;
+    display: grid; text-transform: capitalize;
+    small { font-family: $fuente-texto; font-size: .8rem; color: var(--texto-suave); text-transform: none; }
+    &:hover { color: var(--primario-oscuro); }
+  }
+}
+
+.servicios-admin {
+  &__lista { display: grid; gap: 14px; margin-top: 12px; }
+  &__fila {
+    display: grid;
+    gap: 10px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--borde);
+    @media (min-width: $tablet) { grid-template-columns: 2fr 1fr 1fr; }
+  }
+}

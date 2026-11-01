@@ -1,0 +1,71 @@
+@use "../variables" as *;
+
+/* Estructura general para mantener el footer abajo */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+}
+
+/* Estilos para el pie */
+.pie {
+    background-color: #181214; // Fondo oscuro profundo que combina con tus tonos cálidos
+    border-top: 2px solid var(--primario); // Línea superior con el color principal de tu tema
+    color: #c4b5b9; // Texto claro y legible sobre fondo oscuro
+    padding: 1.2rem 1rem;
+    width: 100%;
+    margin-top: auto;
+}
+
+.pie__contenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.creditos {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+    .creditos-texto {
+        font-size: 0.88rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+}
+
+/* Estilo para el botón de candado */
+.pie__candado {
+    background: transparent;
+    border: none;
+    color: inherit;
+    opacity: 0.5;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--primario);
+        outline-offset: 2px;
+        opacity: 1;
+    }
+}

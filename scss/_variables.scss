@@ -1,0 +1,28 @@
+// Todo el color se deriva de --primario (lo define config.js al cargar)
+:root {
+  --primario: #c2677f;
+  --primario-oscuro: color-mix(in oklab, var(--primario) 75%, #2a1a1f);
+  --primario-suave: color-mix(in oklab, var(--primario) 14%, #fff);
+  --primario-muy-suave: color-mix(in oklab, var(--primario) 6%, #fffaf7);
+  --primario-borde: color-mix(in oklab, var(--primario) 28%, #fff);
+  --fondo: color-mix(in oklab, var(--primario) 5%, #fdf8f4);
+  --superficie: #fffdfb;
+  --texto: #2e2226;
+  --texto-suave: #78656b;
+  --borde: color-mix(in oklab, var(--primario) 12%, #ece4df);
+  --ok: #3f8a63;
+  --ok-suave: #e3f2e9;
+  --alerta: #b7791f;
+  --alerta-suave: #fbf0dc;
+  --peligro: #b9473f;
+  --peligro-suave: #f8e3e1;
+  --whatsapp: #1f9d55;
+  --sombra: 0 10px 30px -14px color-mix(in oklab, var(--primario) 45%, transparent);
+  --radio: 18px;
+  --radio-chico: 12px;
+}
+
+$fuente-titulos: "Fraunces", Georgia, serif;
+$fuente-texto: "Nunito", system-ui, sans-serif;
+$tablet: 720px;
+$escritorio: 1000px;

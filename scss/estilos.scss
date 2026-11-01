@@ -1,0 +1,11 @@
+// Punto de entrada: compila a css/estilos.css
+@use "variables";
+@use "base";
+@use "components/header";
+@use "components/footer";
+@use "components/modal";
+@use "components/botones";
+@use "components/tarjetas";
+@use "pages/index-estilo";
+@use "pages/confirmacion-estilo";
+@use "pages/admin-estilo";

@@ -1,0 +1,15 @@
+{
+  "name": "demo-turnos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demo de turnos online para peluquerías y centros de estética",
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "compilar": "sass scss/estilos.scss css/estilos.css --no-source-map",
+    "dev": "sass --watch scss/estilos.scss css/estilos.css --no-source-map",
+    "servir": "pnpm dlx serve . -l 3000"
+  },
+  "devDependencies": {
+    "sass": "^1.80.0"
+  }
+}
