@@ -1,13 +1,17 @@
-# Demo de turnos online · Salón Aurora
+# Demo de turnos online
+https://emilianogomezdevita.github.io/turnos-demo/
 
 Demo de un sistema de turnos para peluquerías y centros de estética. Está hecha en HTML, SCSS y JavaScript puro, sin backend: todo se guarda en el navegador (localStorage).
+Para entrar al panel del dueño, tocá el candado del pie de la página.
+Clave de demostración: `demoTurnos`.
 
 ## Pantallas
 | URL | Qué es |
 |---|---|
 | `/` | El cliente reserva su turno: servicio, profesional, día y hora, y sus datos |
 | `/confirmacion/` | Resumen del turno y botón **Confirmar por WhatsApp** |
-| `/admin` | Agenda del dueño (día y semana): confirmar, cancelar, bloquear horarios y editar servicios |
+| | `/admin/` | Agenda del dueño (requiere clave de demo): confirmar, cancelar, bloquear horarios y editar servicios |
+| `/login/` | Pantalla de ingreso alternativa al modal del candado |
 
 ## Cómo correrla
 ```bash
@@ -26,10 +30,17 @@ Editá **solo** `js/config.js`:
 - `profesionales` y `servicios`: duración en minutos, precio en pesos y quién hace cada servicio.
 - `turnosEjemplo` y `bloqueosEjemplo`: datos de muestra, con fechas relativas a hoy.
 - `textos`: los textos principales de la interfaz.
+- admin: la clave de demo
+- creditos: el texto del pie de pagina.
 
 Todos los colores suaves se calculan a partir de `colorPrincipal`.
 
 Para ver tus cambios de ejemplo, entrá a `/admin` → **Servicios** → **Restablecer datos de demo**. Ese botón borra lo guardado en el navegador.
+
+## Acceso al panel (demo)
+El candado del pie abre una ventana que pide la clave. La clave se define en `admin.claveDemo` de `js/config.js` y la sesión se guarda en `sessionStorage` (se cierra al cerrar la pestaña). "Salir" está arriba, en el panel.
+
+> Es un acceso de demostración y **no es seguridad real**: la clave está en el código y cualquiera puede verla. Un sistema con clientes reales necesita un login verificado en un servidor.
 
 ## Estructura
 ```
@@ -42,9 +53,18 @@ js/index.js              flujo de reserva
 js/confirmacion.js
 js/components/           encabezado, tarjetas, selector de horario
 js/admin/                agenda y edición de servicios
+login/index.html              ingreso alternativo al panel
+js/sesion.js                  sesión de demo (iniciar, comprobar, cerrar)
+js/login.js
+js/components/                encabezado, pie, modal de login, tarjetas, selector de horario
 scss/                    estilos fuente (base, componentes, páginas)
 css/estilos.css          compilado
 ```
+
+## Límites de la demo
+- Los datos se guardan solo en el navegador de cada persona (localStorage): un turno reservado en un celular no aparece en otro dispositivo.
+- No envía mails ni recordatorios.
+- Próximos pasos para un sistema real: backend con Express y Supabase, login verificado en el servidor y recordatorios por WhatsApp.
 
 ## Reglas de reserva
 - Turnos cada 30 minutos dentro del horario de atención. El servicio tiene que terminar antes del cierre.
