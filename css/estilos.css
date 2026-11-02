@@ -155,6 +155,19 @@ a {
   background: #fff;
 }
 
+.aviso-demo {
+  background-color: var(--primario-suave);
+  color: var(--primario-oscuro);
+  font-size: 1rem;
+  padding: 6px 12px;
+  text-align: center;
+  border-radius: var(--radio-chico);
+  margin: 8px 0;
+}
+.aviso-demo:empty {
+  display: none;
+}
+
 .encabezado {
   background: var(--superficie);
   border-bottom: 1px solid var(--borde);
