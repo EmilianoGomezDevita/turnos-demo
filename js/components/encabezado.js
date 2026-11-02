@@ -21,8 +21,13 @@ export function renderEncabezado(contenedor, {
   const botonAccionHTML = esAdmin
     ? `<button type="button" id="btn-logout" class="boton boton--secundario">Salir 🚪</button>`
     : "";
+  const avisoDemo = configuracion.modoDemo 
+    ? `<div class="aviso-demo">${escapar(configuracion.textoDemo || "Modo Demostración")}</div>` 
+    : "";
+
 
   contenedor.innerHTML = `
+    ${avisoDemo}
     <div class="encabezado__contenido">
       <a class="logo" href="${raiz}">
         ${logo}
