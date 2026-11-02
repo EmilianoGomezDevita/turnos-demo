@@ -73,6 +73,7 @@ export const configuracion = {
     gracias: "¡Listo! Ya casi tenés tu turno",
     graciasDetalle: "Mandanos el resumen por WhatsApp para dejarlo confirmado.",
     botonWhatsapp: "Confirmar por WhatsApp",
+    avisoDemo: "Versión de demostración · los datos se guardan solo en este dispositivo",
   },
   reservas: {
     modo: "directa" //"directa" | "con_aprobacion"
@@ -87,9 +88,5 @@ export const configuracion = {
   },
 
   modoDemo: true,
-
-  textos: { 
-    avisoDemo: "Versión de demostración · los datos se guardan solo en este dispositivo"
-  } 
 };
 
