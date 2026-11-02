@@ -84,6 +84,12 @@ export const configuracion = {
 
   creditos : {
     texto: "Sistema por..." //Nombre de local
-  }
+  },
+
+  modoDemo: true,
+
+  textos: { 
+    avisoDemo: "Versión de demostración · los datos se guardan solo en este dispositivo"
+  } 
 };
 
