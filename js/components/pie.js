@@ -3,6 +3,7 @@ import { configuracion } from "../config.js";
 import { escapar } from "../turnos.js";
 import { abrirLogin } from "./modal-login.js";
 import { haySesion } from "../sesion.js";
+import { urlConSlug } from "../api.js";
 
 export function renderPiePagina(contenedor, {
     raiz = "./",
@@ -25,7 +26,7 @@ export function renderPiePagina(contenedor, {
   if (mostrarCandado) {
     const btnLogin = contenedor.querySelector(".pie__candado");
     btnLogin?.addEventListener("click", () => {
-      const destino = `${raiz}admin/`;
+      const destino = urlConSlug(`${raiz}admin/`);
       if (haySesion()) {
         window.location.href = destino;
         return;

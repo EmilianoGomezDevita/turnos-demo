@@ -1,6 +1,4 @@
-import { iniciarSesion } from "../sesion.js";
-import { configuracion } from "../config.js";
-import { escapar } from "../turnos.js";
+import { guardarTokenAdmin, iniciarSesionAdmin, obtenerSlug } from "../api.js";
 
 let dialogModal = null
 let destinoActual = "";
@@ -11,18 +9,17 @@ export function abrirLogin({ destino }) {
         dialogModal = document.createElement('dialog')
         dialogModal.className = 'modal'
 
-        //APARECE EL AVISO SI ESTA EN MODO DEMO
-        const avisoClave = configuracion.modoDemo 
-            ? `<p class="aviso-clave">Demo: la clave es ${escapar(configuracion.admin.claveDemo)}</p>` 
-            : "";
-
         dialogModal.innerHTML = `
         <form id="form-login-modal">
             <h3>Acceso restringido</h3>
-            ${avisoClave}
             <div class="campo">
+                    <label for="input-email-modal">Correo</label>
+                    <input type="email" id="input-email-modal" autocomplete="username" required maxlength="254" placeholder="Tu correo" />
+                </div>
+                <div class="campo">
                     <label for="input-password-modal">Contraseña</label>
-                    <input type="password" id="input-password-modal" required placeholder="Ingresá tu contraseña" />
+                    <input type="password" id="input-password-modal" autocomplete="current-password" required maxlength="256" placeholder="Tu contraseña" />
+                    <label class="mostrar-password"><input type="checkbox" id="ver-password-modal" /> Mostrar contraseña</label>
                 </div>
                 <p role="alert" hidden class="error-msg"></p>
                 <div class="acciones">
@@ -35,33 +32,47 @@ export function abrirLogin({ destino }) {
         document.body.appendChild(dialogModal)
 
         const form = dialogModal.querySelector('#form-login-modal');
+        const inputEmail = dialogModal.querySelector('#input-email-modal');
         const inputPassword = dialogModal.querySelector('#input-password-modal')
+        const verPassword = dialogModal.querySelector('#ver-password-modal');
         const pError = dialogModal.querySelector('p[role="alert"]')
         const btnCancelar = dialogModal.querySelector('#btn-cancelar-modal')
+        const btnIngresar = dialogModal.querySelector('#btn-ingresar-modal')
 
         btnCancelar.addEventListener('click', () => {
             dialogModal.close()
         })
 
         dialogModal.addEventListener("close", ()=> {
+            inputEmail.value = ''
             inputPassword.value = ''
+            inputPassword.type = 'password'
+            verPassword.checked = false
             pError.textContent = ''
             pError.hidden = true
         })
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const clave = inputPassword.value;
-            const esValido = iniciarSesion(clave);
+        verPassword.addEventListener('change', () => {
+            inputPassword.type = verPassword.checked ? 'text' : 'password';
+        });
 
-            if (esValido) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btnIngresar.disabled = true;
+            pError.hidden = true;
+            try {
+                const respuesta = await iniciarSesionAdmin({
+                    slug: obtenerSlug(),
+                    email: inputEmail.value.trim(),
+                    password: inputPassword.value,
+                });
+                guardarTokenAdmin(respuesta.token);
                 location.href = destinoActual;
-            } else {
-                pError.textContent = "Contraseña incorrecta. Intentá de nuevo.";
+            } catch (error) {
+                pError.textContent = error.message;
                 pError.hidden = false;
-                inputPassword.value = '';
-                inputPassword.focus();
+            } finally {
+                btnIngresar.disabled = false;
             }
         });
     }

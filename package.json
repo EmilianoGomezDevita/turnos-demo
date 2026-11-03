@@ -7,9 +7,12 @@
   "scripts": {
     "compilar": "sass scss/estilos.scss css/estilos.css --no-source-map",
     "dev": "sass --watch scss/estilos.scss css/estilos.css --no-source-map",
-    "servir": "pnpm dlx serve . -l 3000"
+    "servir": "pnpm dlx serve . -l 3000",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.6",
     "sass": "^1.80.0"
   }
 }

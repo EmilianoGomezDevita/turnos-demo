@@ -2,6 +2,7 @@
 import { configuracion } from "../config.js";
 import { escapar } from "../turnos.js";
 import { cerrarSesion } from "../sesion.js";
+import { urlConSlug } from "../api.js";
 
 export function aplicarTema() {
   document.documentElement.style.setProperty("--primario", configuracion.negocio.colorPrincipal);
@@ -29,7 +30,7 @@ export function renderEncabezado(contenedor, {
   contenedor.innerHTML = `
     ${avisoDemo}
     <div class="encabezado__contenido">
-      <a class="logo" href="${raiz}">
+      <a class="logo" href="${escapar(urlConSlug(raiz))}">
         ${logo}
         <span class="logo__textos">
           <strong class="logo__nombre">${escapar(n.nombre)}</strong>
@@ -46,7 +47,7 @@ export function renderEncabezado(contenedor, {
     const btnLogout = contenedor.querySelector("#btn-logout");
     btnLogout?.addEventListener("click", () => {
       cerrarSesion();
-      window.location.href = raiz;
+      window.location.href = urlConSlug(raiz);
     });
   }
 }

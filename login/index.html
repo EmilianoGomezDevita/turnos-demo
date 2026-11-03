@@ -18,18 +18,21 @@
     <header class="encabezado" id="encabezado"></header>
     <main class="contenedor">
         <div class="intro">
-            <h1 class="intro__titulo" id="titulo">Ingrear al panel</h1>
-            <form class="tarjeta" id="form-login" novalidate> 
+            <h1 class="intro__titulo" id="titulo">Ingresar al panel</h1>
+            <form class="tarjeta" id="form-login" novalidate>
                 <label class="campo">
-                    <span>Clave</span>
-                    <input type="password" name="clave" id="clave" autocomplete="current-password" required>
+                    <span>Correo</span>
+                    <input type="email" name="email" id="email" autocomplete="username" required maxlength="254">
+                </label>
+                <label class="campo">
+                    <span>Contraseña</span>
+                    <input type="password" name="password" id="clave" autocomplete="current-password" required maxlength="256">
                 </label>
                 <p id="error" role="alert" hidden></p>
                 <div class="acciones">
-                    <a class="boton boton--secundario" href="../">Volver</a>
+                    <a class="boton boton--secundario" href="../" data-enlace-inicio>Volver</a>
                     <button type="submit" class="boton boton--primario">Ingresar</button>
                 </div>
-                <p class="aviso-demo" id="aviso-demo"></p>
             </form>
         </div>
     </main>

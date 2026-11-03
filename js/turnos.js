@@ -39,8 +39,10 @@ export const sumarDias = (d, n) => {
 };
 export const hoyISO = () => fechaISO(new Date());
 
-export const formatearFecha = (iso, opciones = { weekday: "long", day: "numeric", month: "long" }) =>
-  deISO(iso).toLocaleDateString("es-AR", opciones);
+export const formatearFecha = (iso, opciones = { weekday: "long", day: "numeric", month: "long" }) => {
+  const fecha = iso instanceof Date ? fechaISO(iso) : String(iso).slice(0, 10);
+  return deISO(fecha).toLocaleDateString("es-AR", opciones);
+};
 export const formatearPrecio = (n) => "$" + Number(n).toLocaleString("es-AR");
 export const formatearDuracion = (min) => {
   if (min < 60) return `${min} min`;
@@ -79,7 +81,8 @@ function sembrar() {
     configuracion.bloqueosEjemplo.map((b) => ({ id: nuevoId(), fecha: fechaEjemplo(b.dia), hora: b.hora, duracion: b.duracion, profesionalId: b.profesionalId, motivo: b.motivo }))
   );
 }
-sembrar();
+// La rama conectada a la API no debe poblar el navegador con datos locales de demo.
+if (!new URLSearchParams(window.location.search).has("n")) sembrar();
 
 export function restablecerDemo() {
   Object.values(CLAVES).forEach((c) => localStorage.removeItem(c));

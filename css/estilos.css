@@ -344,6 +344,21 @@ main {
   font-weight: 700;
   font-size: 0.92rem;
 }
+.modal .campo .mostrar-password {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--texto-suave);
+  font-weight: 600;
+  cursor: pointer;
+}
+.modal .campo .mostrar-password input[type=checkbox] {
+  width: 18px;
+  min-height: 18px;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--primario);
+}
 .modal .error-msg {
   margin: 0;
   color: var(--peligro);
@@ -1008,4 +1023,51 @@ main {
   .servicios-admin__fila {
     grid-template-columns: 2fr 1fr 1fr;
   }
+}
+
+.equipo-admin {
+  display: grid;
+  gap: 16px;
+}
+.equipo-admin__persona {
+  display: grid;
+  gap: 14px;
+}
+.equipo-admin__datos {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 720px) {
+  .equipo-admin__datos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.equipo-admin__fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-chico);
+}
+.equipo-admin__fieldset legend {
+  padding: 0 6px;
+  color: var(--texto-suave);
+  font-weight: 700;
+}
+.equipo-admin__servicios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.equipo-admin__servicios label, .equipo-admin__activo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--texto);
+}
+.equipo-admin__servicios input, .equipo-admin__activo input {
+  accent-color: var(--primario);
+}
+.equipo-admin .acciones {
+  margin-top: 0;
 }

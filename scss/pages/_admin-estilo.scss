@@ -124,3 +124,17 @@
     @media (min-width: $tablet) { grid-template-columns: 2fr 1fr 1fr; }
   }
 }
+
+.equipo-admin {
+  display: grid;
+  gap: 16px;
+
+  &__persona { display: grid; gap: 14px; }
+  &__datos { display: grid; gap: 12px; @media (min-width: $tablet) { grid-template-columns: 1fr 1fr; } }
+  &__fieldset { min-width: 0; margin: 0; padding: 12px; border: 1px solid var(--borde); border-radius: var(--radio-chico); }
+  &__fieldset legend { padding: 0 6px; color: var(--texto-suave); font-weight: 700; }
+  &__servicios { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  &__servicios label, &__activo { display: inline-flex; align-items: center; gap: 8px; color: var(--texto); }
+  &__servicios input, &__activo input { accent-color: var(--primario); }
+  .acciones { margin-top: 0; }
+}
