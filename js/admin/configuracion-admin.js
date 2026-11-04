@@ -2,6 +2,7 @@ import { solicitarAdmin } from "../api.js";
 import { configuracion } from "../config.js";
 import { renderEncabezado } from "../components/encabezado.js";
 import { escapar } from "../turnos.js";
+import { logoADataUrl } from "../logo.js";
 
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const FUENTES_TITULOS = ["Fraunces", "Playfair Display", "Lora", "DM Serif Display"];
@@ -23,6 +24,9 @@ function filaHorario(dia, horarios) {
 }
 
 export async function renderConfiguracionAdmin(contenedor, negocio) {
+  let logoDataActual = negocio.logoData || "";
+  let logoUrlActual = negocio.logoUrl || "";
+  let logoModificado = false;
   contenedor.innerHTML = `<section class="tarjeta"><h2 class="paso__titulo">Negocio</h2><p class="aviso">Cargando configuración…</p></section>`;
   contenedor.innerHTML = `<form id="form-configuracion-negocio" class="tarjeta configuracion-admin">
     <div><h2 class="paso__titulo">Datos del local</h2><p class="aviso">Estos datos aparecen en la reserva y en el panel.</p></div>
@@ -35,11 +39,23 @@ export async function renderConfiguracionAdmin(contenedor, negocio) {
       <label class="campo"><span>Zona horaria</span><input name="zonaHoraria" required maxlength="80" value="${escapar(negocio.zonaHoraria || "America/Argentina/Buenos_Aires")}"></label>
     </div>
 
-    <div><h2 class="paso__titulo">Identidad visual</h2><p class="aviso">El logo debe ser una imagen pública con dirección HTTPS. Si lo dejás vacío, se muestra la inicial.</p></div>
+    <div><h2 class="paso__titulo">Identidad visual</h2><p class="aviso">Elegí una imagen de tu celular o computadora. Se achica automáticamente; también podés dejar la inicial.</p></div>
     <div class="configuracion-admin__grilla">
       <label class="campo"><span>Color principal</span><input name="colorPrincipal" type="color" value="${/^#[0-9a-f]{6}$/i.test(negocio.colorPrincipal || "") ? negocio.colorPrincipal : "#C2677F"}"></label>
       <label class="campo"><span>Inicial del logo</span><input name="inicial" maxlength="1" value="${escapar(negocio.inicial || negocio.nombre?.[0] || "?")}"></label>
-      <label class="campo campo--ancho"><span>URL pública del logo</span><input name="logoUrl" type="url" maxlength="1000" placeholder="https://..." value="${escapar(negocio.logoUrl || "")}"></label>
+      <div class="campo campo--ancho logo-editor">
+        <span>Logo del negocio</span>
+        <div class="logo-editor__contenido">
+          <img id="logo-preview" class="logo-editor__preview" alt="Vista previa del logo" ${logoDataActual || logoUrlActual ? `src="${escapar(logoDataActual || logoUrlActual)}"` : "hidden"}>
+          <p id="logo-sin-imagen" class="aviso" ${logoDataActual || logoUrlActual ? "hidden" : ""}>Se mostrará la inicial del negocio.</p>
+          <div class="logo-editor__acciones">
+            <label class="boton boton--secundario logo-editor__elegir">Elegir imagen<input id="archivo-logo" type="file" accept="image/png,image/jpeg,image/webp"></label>
+            <button id="quitar-logo" class="boton boton--secundario" type="button" ${logoDataActual || logoUrlActual ? "" : "disabled"}>Quitar logo</button>
+          </div>
+          <small>PNG, JPG o WebP. Máximo 10 MB; se guarda una versión pequeña.</small>
+          <p id="error-logo" class="error" role="alert"></p>
+        </div>
+      </div>
       <label class="campo"><span>Tipografía de títulos</span><select name="fuenteTitulos">${opciones(FUENTES_TITULOS, negocio.fuenteTitulos || "Fraunces")}</select></label>
       <label class="campo"><span>Tipografía de texto</span><select name="fuenteTexto">${opciones(FUENTES_TEXTO, negocio.fuenteTexto || "Nunito")}</select></label>
     </div>
@@ -60,6 +76,39 @@ export async function renderConfiguracionAdmin(contenedor, negocio) {
   </form>`;
 
   const form = contenedor.querySelector("#form-configuracion-negocio");
+  const archivoLogo = form.querySelector("#archivo-logo");
+  const previewLogo = form.querySelector("#logo-preview");
+  const sinImagen = form.querySelector("#logo-sin-imagen");
+  const botonQuitarLogo = form.querySelector("#quitar-logo");
+  archivoLogo.addEventListener("change", async () => {
+    const archivo = archivoLogo.files?.[0];
+    if (!archivo) return;
+    const errorLogo = form.querySelector("#error-logo");
+    errorLogo.textContent = "";
+    try {
+      logoDataActual = await logoADataUrl(archivo);
+      logoUrlActual = "";
+      logoModificado = true;
+      previewLogo.src = logoDataActual;
+      previewLogo.hidden = false;
+      sinImagen.hidden = true;
+      botonQuitarLogo.disabled = false;
+    } catch (error) {
+      archivoLogo.value = "";
+      errorLogo.textContent = error.message;
+    }
+  });
+  botonQuitarLogo.addEventListener("click", () => {
+    logoDataActual = "";
+    logoUrlActual = "";
+    logoModificado = true;
+    previewLogo.removeAttribute("src");
+    previewLogo.hidden = true;
+    sinImagen.hidden = false;
+    botonQuitarLogo.disabled = true;
+    archivoLogo.value = "";
+  });
+
   form.querySelectorAll('[name="cerrado"]').forEach(casilla => casilla.addEventListener("change", () => {
     const fila = casilla.closest("fieldset");
     fila.querySelector('[name="abre"]').disabled = casilla.checked;
@@ -91,7 +140,6 @@ export async function renderConfiguracionAdmin(contenedor, negocio) {
       whatsapp: form.elements.whatsapp.value.trim(),
       colorPrincipal: form.elements.colorPrincipal.value,
       inicial: form.elements.inicial.value.trim() || form.elements.nombre.value.trim()[0],
-      logoUrl: form.elements.logoUrl.value.trim(),
       fuenteTitulos: form.elements.fuenteTitulos.value,
       fuenteTexto: form.elements.fuenteTexto.value,
       modoReserva: form.elements.modoReserva.value,
@@ -99,6 +147,7 @@ export async function renderConfiguracionAdmin(contenedor, negocio) {
       diasParaReservar: Number(form.elements.diasParaReservar.value),
       horarios,
     };
+    if (logoModificado) datos.logoData = logoDataActual || null;
     boton.disabled = true;
     try {
       const respuesta = await solicitarAdmin("/api/admin/configuracion", {

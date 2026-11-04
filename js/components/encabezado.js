@@ -32,8 +32,9 @@ export function renderEncabezado(contenedor, {
 } = {}) {
   aplicarTema();
   const n = configuracion.negocio;
-  const logo = n.logoUrl
-    ? `<img class="logo__img" src="${escapar(n.logoUrl)}" alt="">`
+  const logoFuente = n.logoData || n.logoUrl;
+  const logo = logoFuente
+    ? `<img class="logo__img" src="${escapar(logoFuente)}" alt="">`
     : `<span class="logo__inicial" aria-hidden="true">${escapar(n.inicial)}</span>`;
 
   const botonAccionHTML = esAdmin
