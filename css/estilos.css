@@ -1106,6 +1106,46 @@ main {
   padding: 5px;
 }
 
+.logo-editor {
+  display: grid;
+  gap: 8px;
+}
+.logo-editor__contenido {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+}
+.logo-editor__preview {
+  width: 112px;
+  height: 112px;
+  padding: 8px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  object-fit: contain;
+}
+.logo-editor__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.logo-editor__elegir {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.logo-editor__elegir input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.logo-editor small {
+  color: var(--texto-suave);
+}
+
 .equipo-admin {
   display: grid;
   gap: 16px;
