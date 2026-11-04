@@ -26,12 +26,14 @@ Mientras editás estilos podés usar `pnpm dev`, que recompila solo cada vez que
 
 La rama `api` conecta reserva, confirmación, login y panel a `turnos-backend`. En un sitio publicado se conecta a `https://turnos-api-4id3.onrender.com`; en `localhost` conserva la conexión a `http://localhost:3001`. Para probarla localmente, abrí `/?n=demo-turnos`, levantá el backend y serví el frontend con `pnpm servir`. Las pantallas internas conservan el parámetro `n`. El dueño inicia sesión con correo y contraseña creados en el backend; el panel toma el negocio desde el token. En el panel se administran agenda, bloqueos, servicios y profesionales; los profesionales se desactivan para preservar el historial de turnos.
 
+En `api`, cada local tiene un slug propio y se configura desde **Admin → Negocio**: datos, horarios, modo de reserva, color, logo y tipografías. En **Servicios** se pueden agregar, editar y desactivar servicios; en **Equipo** se gestionan profesionales y sus servicios. Los detalles del alta están en `docs/alta-negocio.md` dentro del repositorio privado `turnos-backend`.
+
 ## Pruebas E2E
 
 Las pruebas usan Chromium en `http://localhost:3000`. Primero, desde `turnos-backend`, prepará el negocio de prueba con `pnpm seed:e2e` y arrancá la API con `pnpm dev:e2e`; ese modo permite por CORS solo `http://localhost:3000` y usa la rama Neon `test-turnos`. Después ejecutá `pnpm test:e2e` desde este repositorio. Playwright arranca `pnpm servir` si el puerto 3000 está libre. No uses la configuración normal `pnpm dev` del backend para estas pruebas.
 
-## Cambiar de negocio
-Editá **solo** `js/config.js`:
+## Configurar la demo local (`main`)
+En la rama `main`, editá `js/config.js`:
 - `negocio`: nombre, bajada, inicial o `logoUrl`, `colorPrincipal`, número de WhatsApp (formato `549...` sin `+`) y dirección.
 - `horarios`: apertura y cierre por día (`null` = cerrado).
 - `profesionales` y `servicios`: duración en minutos, precio en pesos y quién hace cada servicio.
@@ -40,7 +42,7 @@ Editá **solo** `js/config.js`:
 - admin: la clave de demo
 - creditos: el texto del pie de pagina.
 
-Todos los colores suaves se calculan a partir de `colorPrincipal`.
+En `main`, los colores suaves se calculan a partir de `colorPrincipal`. En la rama `api`, la personalización se guarda por negocio en PostgreSQL desde la pestaña **Negocio** del panel.
 
 Para ver tus cambios de ejemplo, entrá a `/admin` → **Servicios** → **Restablecer datos de demo**. Ese botón borra lo guardado en el navegador.
 
