@@ -5,6 +5,7 @@ import { cargarNegocio, solicitarAdmin, urlConSlug } from "../api.js";
 import { renderEncabezado } from "../components/encabezado.js";
 import { renderServiciosAdmin } from "./servicios-admin.js";
 import { renderEquipoAdmin } from "./equipo-admin.js";
+import { renderConfiguracionAdmin } from "./configuracion-admin.js";
 import { hoyISO, deISO, fechaISO, sumarDias, formatearFecha, formatearPrecio, aMinutos, aHora, escapar } from "../turnos.js";
 
 renderEncabezado(document.getElementById("encabezado"), { raiz: "../", etiqueta: "Panel del negocio", esAdmin: true });
@@ -88,6 +89,7 @@ function renderControles() {
     <button class="pestana${vista.seccion === "agenda" && vista.modo === "semana" ? " es-activa" : ""}" data-modo="semana">Semana</button>
     <button class="pestana${vista.seccion === "servicios" ? " es-activa" : ""}" data-seccion="servicios">Servicios</button>
     <button class="pestana${vista.seccion === "equipo" ? " es-activa" : ""}" data-seccion="equipo">Equipo</button>
+    <button class="pestana${vista.seccion === "configuracion" ? " es-activa" : ""}" data-seccion="configuracion">Negocio</button>
   </div>${vista.seccion === "agenda" ? `<div class="navegacion">
     <button class="boton-chico" data-mover="-1" aria-label="Anterior">←</button>
     <button class="boton-chico" data-mover="0">Hoy</button>
@@ -146,6 +148,7 @@ async function render() {
   renderControles();
   if (vista.seccion === "servicios") { await renderServiciosAdmin($agenda); return; }
   if (vista.seccion === "equipo") { await renderEquipoAdmin($agenda); return; }
+  if (vista.seccion === "configuracion") { await renderConfiguracionAdmin($agenda, configuracion.negocio); return; }
   $agenda.innerHTML = `<p class="aviso">Cargando agenda…</p>`;
   const { desde, hasta } = rangoActual();
   try {
