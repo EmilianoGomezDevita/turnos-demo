@@ -2,7 +2,7 @@
 https://emilianogomezdevita.github.io/turnos-demo/
 
 Demo de un sistema de turnos para peluquerías y centros de estética. Está hecha en HTML, SCSS y JavaScript puro, sin backend: todo se guarda en el navegador (localStorage).
-Para entrar al panel del dueño, tocá el candado del pie de la página.
+Para entrar al panel de demo, tocá el candado del pie de la página.
 Clave de demostración: `demoTurnos`.
 
 ## Pantallas
@@ -10,7 +10,7 @@ Clave de demostración: `demoTurnos`.
 |---|---|
 | `/` | El cliente reserva su turno: servicio, profesional, día y hora, y sus datos |
 | `/confirmacion/` | Resumen del turno y botón **Confirmar por WhatsApp** |
-|`/admin/` | Agenda del dueño (requiere clave de demo): confirmar, cancelar, bloquear horarios y editar servicios |
+| `/admin/` | Panel de demo: agenda, servicios, equipo y configuración del negocio |
 | `/login/` | Pantalla de ingreso alternativa al modal del candado |
 
 ## Cómo correrla
@@ -23,9 +23,12 @@ pnpm servir     # abre http://localhost:3000
 
 Mientras editás estilos podés usar `pnpm dev`, que recompila solo cada vez que guardás.
 
-## Cambiar de negocio
-Editá **solo** `js/config.js`:
-- `negocio`: nombre, bajada, inicial o `logoUrl`, `colorPrincipal`, número de WhatsApp (formato `549...` sin `+`) y dirección.
+## Personalizar la demo
+
+La versión estática permite cambiar datos del negocio desde **Admin → Negocio** y modificar profesionales desde **Admin → Equipo**. Esos ajustes, los turnos y los servicios se guardan en `localStorage` de ese navegador y no se comparten con otros visitantes.
+
+Para devolver la muestra al estado inicial, usá **Servicios → Restablecer datos de demo**. Para cambiar los valores iniciales que aparecen después de restablecer, editá `js/config.js`:
+- `negocio`: nombre, bajada, inicial o `logoUrl`, color, tipografías, WhatsApp (formato `549...` sin `+`) y dirección.
 - `horarios`: apertura y cierre por día (`null` = cerrado).
 - `profesionales` y `servicios`: duración en minutos, precio en pesos y quién hace cada servicio.
 - `turnosEjemplo` y `bloqueosEjemplo`: datos de muestra, con fechas relativas a hoy.

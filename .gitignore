@@ -1,2 +1,16 @@
 node_modules/
-.sass-cache
+.sass-cache/
+.env
+.env.*
+!.env.example
+!.env.*.example
+.playwright-mcp/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+coverage/
+dist/
+*.log
+.DS_Store
