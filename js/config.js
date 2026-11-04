@@ -11,6 +11,8 @@ export const configuracion = {
     inicial: "D", // letra que se muestra en el logo circular
     logoUrl: "", // opcional: ruta a una imagen; si está vacío se usa la inicial
     colorPrincipal: "#C2677F",
+    fuenteTitulos: "Fraunces",
+    fuenteTexto: "Nunito",
     whatsapp: "5491155550000", // formato internacional, sin + ni espacios
     direccion: "Av. Rivadavia 18.250, Morón",
   },
