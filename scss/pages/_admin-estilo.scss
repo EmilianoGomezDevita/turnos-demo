@@ -115,14 +115,34 @@
 }
 
 .servicios-admin {
-  &__lista { display: grid; gap: 14px; margin-top: 12px; }
+  display: grid;
+  gap: 16px;
+  &__nuevo, &__lista { display: grid; gap: 14px; }
+  &__nuevo { @media (min-width: $tablet) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   &__fila {
     display: grid;
     gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-chico);
     padding-bottom: 14px;
-    border-bottom: 1px solid var(--borde);
     @media (min-width: $tablet) { grid-template-columns: 2fr 1fr 1fr; }
+    .campo--ancho { @media (min-width: $tablet) { grid-column: 1 / -1; } }
+    > button { justify-self: start; }
   }
+}
+
+.configuracion-admin {
+  display: grid;
+  gap: 20px;
+  &__grilla { display: grid; gap: 14px; @media (min-width: $tablet) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  &__grilla .campo--ancho { @media (min-width: $tablet) { grid-column: 1 / -1; } }
+  &__horarios { display: grid; gap: 10px; @media (min-width: $tablet) { grid-template-columns: repeat(2, minmax(0, 1fr)); } @media (min-width: $escritorio) { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  &__horario { min-width: 0; display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 10px; padding: 12px; border: 1px solid var(--borde); border-radius: var(--radio-chico); }
+  &__horario legend { padding: 0 6px; font-weight: 800; color: var(--primario-oscuro); }
+  &__cerrado { grid-column: 1 / -1; display: inline-flex; gap: 8px; align-items: center; color: var(--texto-suave); font-weight: 700; }
+  &__cerrado input { accent-color: var(--primario); }
+  input[type="color"] { min-height: 48px; padding: 5px; }
 }
 
 .equipo-admin {
