@@ -26,7 +26,7 @@ Mientras editás estilos podés usar `pnpm dev`, que recompila solo cada vez que
 
 La rama `api` conecta reserva, confirmación, login y panel a `turnos-backend`. En un sitio publicado se conecta a `https://turnos-api-4id3.onrender.com`; en `localhost` conserva la conexión a `http://localhost:3001`. Para probarla localmente, abrí `/?n=demo-turnos`, levantá el backend y serví el frontend con `pnpm servir`. Las pantallas internas conservan el parámetro `n`. El dueño inicia sesión con correo y contraseña creados en el backend; el panel toma el negocio desde el token. En el panel se administran agenda, bloqueos, servicios y profesionales; los profesionales se desactivan para preservar el historial de turnos.
 
-En `api`, cada local tiene un slug propio y se configura desde **Admin → Negocio**: datos, horarios, modo de reserva, color, logo y tipografías. En **Servicios** se pueden agregar, editar y desactivar servicios; en **Equipo** se gestionan profesionales y sus servicios. Los detalles del alta están en `docs/alta-negocio.md` dentro del repositorio privado `turnos-backend`.
+En `api`, cada local tiene un slug propio y se configura desde **Admin → Negocio**: datos, horarios, modo de reserva, color, logo y tipografías. El dueño elige el logo desde su celular o computadora; se reduce y guarda en Neon sin subirlo a un servicio externo. En **Servicios** se pueden agregar, editar y desactivar servicios; en **Equipo** se gestionan profesionales y sus servicios. Los detalles del alta están en `docs/alta-negocio.md` dentro del repositorio privado `turnos-backend`.
 
 ## Pruebas E2E
 
