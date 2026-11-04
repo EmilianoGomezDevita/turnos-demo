@@ -7,6 +7,8 @@ import {
 } from "../turnos.js";
 import { renderEncabezado } from "../components/encabezado.js";
 import { renderServiciosAdmin } from "./servicios-admin.js";
+import { renderEquipoAdmin } from "./equipo-admin.js";
+import { renderConfiguracionAdmin } from "./configuracion-admin.js";
 
 renderEncabezado(document.getElementById("encabezado"), { raiz: "../", etiqueta: "Panel del negocio", esAdmin: true });
 document.title = `Agenda · ${configuracion.negocio.nombre}`;
@@ -71,6 +73,8 @@ else {
       <button class="pestana${vista.seccion === "agenda" && vista.modo === "dia" ? " es-activa" : ""}" data-modo="dia">Día</button>
       <button class="pestana${vista.seccion === "agenda" && vista.modo === "semana" ? " es-activa" : ""}" data-modo="semana">Semana</button>
       <button class="pestana${vista.seccion === "servicios" ? " es-activa" : ""}" data-seccion="servicios">Servicios</button>
+      <button class="pestana${vista.seccion === "equipo" ? " es-activa" : ""}" data-seccion="equipo">Equipo</button>
+      <button class="pestana${vista.seccion === "configuracion" ? " es-activa" : ""}" data-seccion="configuracion">Negocio</button>
     </div>
     ${vista.seccion === "agenda" ? `<div class="navegacion">
       <button class="boton-chico" data-mover="-1" aria-label="Anterior">←</button>
@@ -79,7 +83,7 @@ else {
       <strong class="navegacion__fecha">${etiqueta}</strong>
       <select id="filtro" class="selector" aria-label="Filtrar por profesional">
         <option value="todos">Todas las profesionales</option>
-        ${configuracion.profesionales.map((p) => `<option value="${p.id}" ${vista.profesional === p.id ? "selected" : ""}>${escapar(p.nombre)}</option>`).join("")}
+        ${configuracion.profesionales.filter(p => p.activo !== false).map((p) => `<option value="${p.id}" ${vista.profesional === p.id ? "selected" : ""}>${escapar(p.nombre)}</option>`).join("")}
       </select>
     </div>` : ""}`;
   }
@@ -100,7 +104,7 @@ else {
     return `<details class="tarjeta bloqueo-form">
     <summary>Bloquear un horario</summary>
     <form id="form-bloqueo" class="bloqueo-form__grilla">
-      <label class="campo"><span>Profesional</span><select name="profesionalId" class="selector">${configuracion.profesionales.map((p) => `<option value="${p.id}">${escapar(p.nombre)}</option>`).join("")}</select></label>
+      <label class="campo"><span>Profesional</span><select name="profesionalId" class="selector">${configuracion.profesionales.filter(p => p.activo !== false).map((p) => `<option value="${p.id}">${escapar(p.nombre)}</option>`).join("")}</select></label>
       <label class="campo"><span>Día</span><input type="date" name="fecha" value="${vista.fecha}" required></label>
       <label class="campo"><span>Desde</span><select name="hora" class="selector">${opcionesHora.map((h) => `<option ${h === "13:00" ? "selected" : ""}>${h}</option>`).join("")}</select></label>
       <label class="campo"><span>Duración</span><select name="duracion" class="selector">${[30, 60, 90, 120, 180, 240].map((d) => `<option value="${d}">${d} min</option>`).join("")}</select></label>
@@ -135,6 +139,8 @@ else {
   function render() {
     renderControles();
     if (vista.seccion === "servicios") return renderServiciosAdmin($agenda);
+    if (vista.seccion === "equipo") return renderEquipoAdmin($agenda);
+    if (vista.seccion === "configuracion") return renderConfiguracionAdmin($agenda);
     $agenda.innerHTML = vista.modo === "dia" ? renderDia() : renderSemana();
   }
 
@@ -151,13 +157,18 @@ else {
     else if (d.confirmar) cambiarEstado(d.confirmar, "confirmado");
     else if (d.cancelar) { if (!confirm("¿Cancelar este turno? El horario queda libre.")) return; cambiarEstado(d.cancelar, "cancelado"); }
     else if (d.quitar) quitarBloqueo(d.quitar);
-    else if (d.restablecer !== undefined) { if (!confirm("Se borran los cambios y vuelven los datos de ejemplo. ¿Seguimos?")) return; restablecerDemo(); }
+    else if (d.restablecer !== undefined) { if (!confirm("Se borran los cambios y vuelven los datos de ejemplo. ¿Seguimos?")) return; restablecerDemo(); renderEncabezado(document.getElementById("encabezado"), { raiz: "../", etiqueta: "Panel del negocio", esAdmin: true }); }
     else return;
     render();
   });
 
   document.addEventListener("change", (e) => {
     if (e.target.id === "filtro") { vista.profesional = e.target.value; render(); }
+  });
+
+  window.addEventListener("configuracion-demo-actualizada", () => {
+    document.title = `Agenda · ${configuracion.negocio.nombre}`;
+    renderControles();
   });
 
   document.addEventListener("submit", (e) => {

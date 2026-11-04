@@ -4,7 +4,22 @@ import { escapar } from "../turnos.js";
 import { cerrarSesion } from "../sesion.js";
 
 export function aplicarTema() {
-  document.documentElement.style.setProperty("--primario", configuracion.negocio.colorPrincipal);
+  const negocio = configuracion.negocio;
+  document.documentElement.style.setProperty("--primario", negocio.colorPrincipal || "#C2677F");
+  document.documentElement.style.setProperty("--fuente-titulos", `"${negocio.fuenteTitulos || "Fraunces"}"`);
+  document.documentElement.style.setProperty("--fuente-texto", `"${negocio.fuenteTexto || "Nunito"}"`);
+  let fuentes = document.getElementById("fuentes-negocio");
+  if (!fuentes) {
+    fuentes = document.createElement("link");
+    fuentes.id = "fuentes-negocio";
+    fuentes.rel = "stylesheet";
+    document.head.appendChild(fuentes);
+  }
+  const parametros = new URLSearchParams();
+  parametros.append("family", negocio.fuenteTitulos || "Fraunces");
+  parametros.append("family", negocio.fuenteTexto || "Nunito");
+  parametros.set("display", "swap");
+  fuentes.href = `https://fonts.googleapis.com/css2?${parametros.toString()}`;
 }
 
 export function renderEncabezado(contenedor, {
@@ -14,8 +29,9 @@ export function renderEncabezado(contenedor, {
 } = {}) {
   aplicarTema();
   const n = configuracion.negocio;
-  const logo = n.logoUrl
-    ? `<img class="logo__img" src="${escapar(n.logoUrl)}" alt="">`
+  const logoFuente = n.logoData || n.logoUrl;
+  const logo = logoFuente
+    ? `<img class="logo__img" src="${escapar(logoFuente)}" alt="">`
     : `<span class="logo__inicial" aria-hidden="true">${escapar(n.inicial)}</span>`;
 
   const botonAccionHTML = esAdmin
