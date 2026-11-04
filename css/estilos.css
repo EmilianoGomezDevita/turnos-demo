@@ -32,7 +32,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Nunito", system-ui, sans-serif;
+  font-family: var(--fuente-texto, "Nunito"), system-ui, sans-serif;
   font-size: 17px;
   line-height: 1.5;
   color: var(--texto);
@@ -41,7 +41,7 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: var(--fuente-titulos, "Fraunces"), Georgia, serif;
   font-weight: 600;
   line-height: 1.15;
   margin: 0;
@@ -212,7 +212,7 @@ a {
   place-items: center;
   background: var(--primario);
   color: #fff;
-  font-family: "Fraunces", Georgia, serif;
+  font-family: var(--fuente-titulos, "Fraunces"), Georgia, serif;
   font-size: 1.4rem;
   font-weight: 600;
 }
@@ -224,7 +224,7 @@ a {
   line-height: 1.2;
 }
 .logo__nombre {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: var(--fuente-titulos, "Fraunces"), Georgia, serif;
   font-size: 1.15rem;
   font-weight: 600;
 }
@@ -494,7 +494,7 @@ main {
   border-radius: 50%;
   background: var(--primario);
   color: #fff;
-  font-family: "Fraunces", Georgia, serif;
+  font-family: var(--fuente-titulos, "Fraunces"), Georgia, serif;
   font-size: 1.2rem;
 }
 .avatar--suave {
@@ -638,7 +638,7 @@ main {
 }
 .dia__numero {
   font-size: 1.4rem;
-  font-family: "Fraunces", Georgia, serif;
+  font-family: var(--fuente-titulos, "Fraunces"), Georgia, serif;
 }
 .dia:hover:not(:disabled) {
   border-color: var(--primario-borde);
@@ -750,6 +750,7 @@ main {
 
 .pestanas {
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 4px;
   padding: 4px;
   background: var(--primario-suave);
@@ -777,7 +778,7 @@ main {
   gap: 8px;
 }
 .navegacion__fecha {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: var(--fuente-titulos, "Fraunces"), Georgia, serif;
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0 8px;
@@ -808,7 +809,7 @@ main {
 }
 .metrica strong {
   font-size: 1.3rem;
-  font-family: "Fraunces", Georgia, serif;
+  font-family: var(--fuente-titulos, "Fraunces"), Georgia, serif;
 }
 
 .lista-turnos {
@@ -977,14 +978,14 @@ main {
   background: none;
   padding: 0;
   text-align: left;
-  font-family: "Fraunces", Georgia, serif;
+  font-family: var(--fuente-titulos, "Fraunces"), Georgia, serif;
   font-size: 1.1rem;
   font-weight: 600;
   display: grid;
   text-transform: capitalize;
 }
 .semana__titulo small {
-  font-family: "Nunito", system-ui, sans-serif;
+  font-family: var(--fuente-texto, "Nunito"), system-ui, sans-serif;
   font-size: 0.8rem;
   color: var(--texto-suave);
   text-transform: none;
@@ -1008,4 +1009,172 @@ main {
   .servicios-admin__fila {
     grid-template-columns: 2fr 1fr 1fr;
   }
+}
+
+.configuracion-admin {
+  display: grid;
+  gap: 20px;
+}
+
+.configuracion-admin__grilla {
+  display: grid;
+  gap: 14px;
+}
+@media (min-width: 720px) {
+  .configuracion-admin__grilla {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 720px) {
+  .configuracion-admin__grilla .campo--ancho {
+    grid-column: 1/-1;
+  }
+}
+
+.configuracion-admin__horarios {
+  display: grid;
+  gap: 10px;
+}
+@media (min-width: 720px) {
+  .configuracion-admin__horarios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1000px) {
+  .configuracion-admin__horarios {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.configuracion-admin__horario {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-chico);
+}
+
+.configuracion-admin__horario legend {
+  padding: 0 6px;
+  font-weight: 800;
+  color: var(--primario-oscuro);
+}
+
+.configuracion-admin__cerrado {
+  grid-column: 1/-1;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--texto-suave);
+  font-weight: 700;
+}
+
+.configuracion-admin__cerrado input {
+  accent-color: var(--primario);
+}
+
+.configuracion-admin input[type=color] {
+  min-height: 48px;
+  padding: 5px;
+}
+
+.logo-editor {
+  display: grid;
+  gap: 8px;
+}
+
+.logo-editor__contenido {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+}
+
+.logo-editor__preview {
+  width: 112px;
+  height: 112px;
+  padding: 8px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  object-fit: contain;
+}
+
+.logo-editor__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.logo-editor__elegir {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.logo-editor__elegir input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.logo-editor small {
+  color: var(--texto-suave);
+}
+
+.equipo-admin {
+  display: grid;
+  gap: 16px;
+}
+
+.equipo-admin__persona {
+  display: grid;
+  gap: 14px;
+}
+
+.equipo-admin__datos {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 720px) {
+  .equipo-admin__datos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.equipo-admin__fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-chico);
+}
+
+.equipo-admin__fieldset legend {
+  padding: 0 6px;
+  color: var(--texto-suave);
+  font-weight: 700;
+}
+
+.equipo-admin__servicios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.equipo-admin__servicios label, .equipo-admin__activo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--texto);
+}
+
+.equipo-admin__servicios input, .equipo-admin__activo input {
+  accent-color: var(--primario);
 }

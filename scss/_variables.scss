@@ -22,7 +22,7 @@
   --radio-chico: 12px;
 }
 
-$fuente-titulos: "Fraunces", Georgia, serif;
-$fuente-texto: "Nunito", system-ui, sans-serif;
+$fuente-titulos: var(--fuente-titulos, "Fraunces"), Georgia, serif;
+$fuente-texto: var(--fuente-texto, "Nunito"), system-ui, sans-serif;
 $tablet: 720px;
 $escritorio: 1000px;
