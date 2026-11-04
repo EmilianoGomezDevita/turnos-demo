@@ -5,7 +5,24 @@ import { cerrarSesion } from "../sesion.js";
 import { urlConSlug } from "../api.js";
 
 export function aplicarTema() {
-  document.documentElement.style.setProperty("--primario", configuracion.negocio.colorPrincipal);
+  const negocio = configuracion.negocio;
+  document.documentElement.style.setProperty("--primario", negocio.colorPrincipal || "#C2677F");
+  document.documentElement.style.setProperty("--fuente-titulos", `"${negocio.fuenteTitulos || "Fraunces"}"`);
+  document.documentElement.style.setProperty("--fuente-texto", `"${negocio.fuenteTexto || "Nunito"}"`);
+
+  const linkId = "fuentes-negocio";
+  let link = document.getElementById(linkId);
+  if (!link) {
+    link = document.createElement("link");
+    link.id = linkId;
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }
+  const fuentes = new URLSearchParams();
+  fuentes.append("family", negocio.fuenteTitulos || "Fraunces");
+  fuentes.append("family", negocio.fuenteTexto || "Nunito");
+  fuentes.set("display", "swap");
+  link.href = `https://fonts.googleapis.com/css2?${fuentes.toString()}`;
 }
 
 export function renderEncabezado(contenedor, {
