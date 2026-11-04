@@ -6,7 +6,9 @@ const CLAVES = {
   bloqueos: "aurora_bloqueos",
   servicios: "aurora_servicios",
   ultimo: "aurora_ultimo_turno",
+  configuracion: "aurora_configuracion_demo",
 };
+const configuracionBase = JSON.parse(JSON.stringify(configuracion));
 
 const leer = (clave, porDefecto) => {
   try {
@@ -18,6 +20,38 @@ const leer = (clave, porDefecto) => {
 };
 const guardar = (clave, valor) => localStorage.setItem(clave, JSON.stringify(valor));
 const nuevoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+function guardarSnapshotConfiguracion() {
+  guardar(CLAVES.configuracion, {
+    negocio: configuracion.negocio,
+    horarios: configuracion.horarios,
+    intervaloMinutos: configuracion.intervaloMinutos,
+    diasParaReservar: configuracion.diasParaReservar,
+    reservas: configuracion.reservas,
+    profesionales: configuracion.profesionales,
+  });
+}
+
+function cargarConfiguracionGuardada() {
+  const guardada = leer(CLAVES.configuracion, null);
+  if (!guardada) return;
+  Object.assign(configuracion.negocio, guardada.negocio || {});
+  configuracion.horarios = guardada.horarios || configuracion.horarios;
+  configuracion.intervaloMinutos = guardada.intervaloMinutos || configuracion.intervaloMinutos;
+  configuracion.diasParaReservar = guardada.diasParaReservar || configuracion.diasParaReservar;
+  configuracion.reservas = guardada.reservas || configuracion.reservas;
+  configuracion.profesionales = guardada.profesionales || configuracion.profesionales;
+}
+
+export function guardarConfiguracionDemo(cambios) {
+  if (cambios.negocio) Object.assign(configuracion.negocio, cambios.negocio);
+  if (cambios.horarios) configuracion.horarios = cambios.horarios;
+  if (cambios.intervaloMinutos) configuracion.intervaloMinutos = cambios.intervaloMinutos;
+  if (cambios.diasParaReservar) configuracion.diasParaReservar = cambios.diasParaReservar;
+  if (cambios.reservas) configuracion.reservas = cambios.reservas;
+  if (cambios.profesionales) configuracion.profesionales = cambios.profesionales;
+  guardarSnapshotConfiguracion();
+}
 
 // ---------- Fechas y horas ----------
 export const aMinutos = (h) => {
@@ -79,10 +113,12 @@ function sembrar() {
     configuracion.bloqueosEjemplo.map((b) => ({ id: nuevoId(), fecha: fechaEjemplo(b.dia), hora: b.hora, duracion: b.duracion, profesionalId: b.profesionalId, motivo: b.motivo }))
   );
 }
+cargarConfiguracionGuardada();
 sembrar();
 
 export function restablecerDemo() {
   Object.values(CLAVES).forEach((c) => localStorage.removeItem(c));
+  Object.assign(configuracion, JSON.parse(JSON.stringify(configuracionBase)));
   sembrar();
 }
 
@@ -92,7 +128,7 @@ export const guardarServicios = (lista) => guardar(CLAVES.servicios, lista);
 export const obtenerServicio = (id) => obtenerServicios().find((s) => s.id === id);
 export const obtenerProfesional = (id) => configuracion.profesionales.find((p) => p.id === id);
 export const profesionalesDe = (servicio) =>
-  configuracion.profesionales.filter((p) => servicio.profesionales.includes(p.id));
+  configuracion.profesionales.filter((p) => p.activo !== false && servicio.profesionales.includes(p.id));
 
 // ---------- Turnos ----------
 export const obtenerTurnos = () => leer(CLAVES.turnos, []);
@@ -110,7 +146,9 @@ export function estaOcupado(profesionalId, fecha, inicio, duracion) {
 export function horariosDelDia(servicio, profesionalId, fecha) {
   const h = horarioDelDia(fecha);
   if (!h) return [];
-  const candidatos = profesionalId === "cualquiera" ? servicio.profesionales : [profesionalId];
+  const candidatos = profesionalId === "cualquiera"
+    ? profesionalesDe(servicio).map(p => p.id)
+    : profesionalesDe(servicio).some(p => p.id === profesionalId) ? [profesionalId] : [];
   const ahora = new Date();
   const esHoy = fecha === hoyISO();
   const minutosAhora = ahora.getHours() * 60 + ahora.getMinutes();
@@ -126,10 +164,12 @@ export function horariosDelDia(servicio, profesionalId, fecha) {
 export function crearTurno({ servicioId, profesionalId, fecha, hora, cliente, whatsapp }) {
   const servicio = obtenerServicio(servicioId);
   if (!servicio) throw new Error("Servicio inexistente");
-  const candidatos = profesionalId === "cualquiera" ? servicio.profesionales : [profesionalId];
+  const candidatos = profesionalId === "cualquiera"
+    ? profesionalesDe(servicio).map(p => p.id)
+    : profesionalesDe(servicio).some(p => p.id === profesionalId) ? [profesionalId] : [];
   const asignado = candidatos.find((p) => !estaOcupado(p, fecha, aMinutos(hora), servicio.duracion));
   if (!asignado) throw new Error("Ese horario ya fue reservado. Elegí otro, por favor.");
-  const turno = { id: nuevoId(), fecha, hora, duracion: servicio.duracion, servicioId, profesionalId: asignado, cliente, whatsapp, estado: "pendiente" };
+  const turno = { id: nuevoId(), fecha, hora, duracion: servicio.duracion, servicioId, profesionalId: asignado, cliente, whatsapp, estado: configuracion.reservas.modo === "directa" ? "confirmado" : "pendiente" };
   guardar(CLAVES.turnos, [...obtenerTurnos(), turno]);
   localStorage.setItem(CLAVES.ultimo, turno.id);
   return turno;
@@ -156,7 +196,9 @@ export function enlaceWhatsapp(turno) {
   const s = obtenerServicio(turno.servicioId);
   const p = obtenerProfesional(turno.profesionalId);
   const texto = [
-    `¡Hola ${configuracion.negocio.nombre}! Quiero confirmar mi turno:`,
+    turno.estado === "confirmado"
+      ? `Hola ${configuracion.negocio.nombre}. Tengo una consulta sobre mi turno:`
+      : `¡Hola ${configuracion.negocio.nombre}! Quiero confirmar mi turno:`,
     `• Servicio: ${s?.nombre ?? ""} (${formatearDuracion(turno.duracion)})`,
     `• Profesional: ${p?.nombre ?? ""}`,
     `• Día: ${formatearFecha(turno.fecha)}`,

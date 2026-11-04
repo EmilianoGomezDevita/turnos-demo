@@ -18,11 +18,14 @@ if (!turno) {
 } else {
   const s = obtenerServicio(turno.servicioId);
   const p = obtenerProfesional(turno.profesionalId);
+  const confirmado = turno.estado === "confirmado";
+  const titulo = confirmado ? "¡Tu turno quedó confirmado!" : "Recibimos tu solicitud de turno";
+  const bajada = confirmado ? "Te esperamos. Si necesitás cambiarlo, contactá al local por WhatsApp." : "El local tiene que aprobar el turno. Podés consultar por WhatsApp.";
   const fila = (k, v) => `<div class="resumen__fila"><dt>${k}</dt><dd>${escapar(v)}</dd></div>`;
   $c.innerHTML = `<div class="tarjeta confirmacion__tarjeta">
     <div class="confirmacion__icono" aria-hidden="true">✓</div>
-    <h1 class="confirmacion__titulo">${t.gracias}</h1>
-    <p class="confirmacion__bajada">${t.graciasDetalle}</p>
+    <h1 class="confirmacion__titulo">${titulo}</h1>
+    <p class="confirmacion__bajada">${bajada}</p>
     <dl class="resumen confirmacion__resumen">
       ${fila("Servicio", `${s?.nombre ?? ""} · ${formatearDuracion(turno.duracion)}`)}
       ${fila("Profesional", p?.nombre ?? "")}
@@ -30,9 +33,10 @@ if (!turno) {
       ${fila("Hora", turno.hora + " hs")}
       ${fila("A nombre de", turno.cliente)}
       ${fila("WhatsApp", turno.whatsapp)}
+      ${fila("Estado", confirmado ? "Confirmado" : "Pendiente de aprobación")}
     </dl>
     <p class="resumen__total"><span>Total a abonar en el local</span><strong>${formatearPrecio(s?.precio ?? 0)}</strong></p>
-    <a class="boton boton--whatsapp boton--ancho" href="${enlaceWhatsapp(turno)}" target="_blank" rel="noopener">${t.botonWhatsapp}</a>
+    <a class="boton boton--whatsapp boton--ancho" href="${enlaceWhatsapp(turno)}" target="_blank" rel="noopener">${confirmado ? "Consultar por WhatsApp" : t.botonWhatsapp}</a>
     <a class="boton boton--secundario boton--ancho" href="../">Reservar otro turno</a>
     <p class="resumen__nota">${escapar(configuracion.negocio.direccion)}</p>
   </div>`;
