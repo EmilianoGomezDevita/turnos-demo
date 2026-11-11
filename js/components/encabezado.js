@@ -3,6 +3,7 @@ import { configuracion } from "../config.js";
 import { escapar } from "../turnos.js";
 import { cerrarSesion } from "../sesion.js";
 import { urlConSlug } from "../api.js";
+import { aplicarColorFooter } from "../tema-footer.js";
 
 export function aplicarTema() {
   const negocio = configuracion.negocio;
@@ -16,6 +17,7 @@ export function aplicarTema() {
   document.documentElement.style.setProperty("--texto-primario", luminancia > 0.42 ? "#2E2226" : "#FFFFFF");
   document.documentElement.style.setProperty("--fuente-titulos", `"${negocio.fuenteTitulos || "Fraunces"}"`);
   document.documentElement.style.setProperty("--fuente-texto", `"${negocio.fuenteTexto || "Nunito"}"`);
+  aplicarColorFooter(principal)
 
   const linkId = "fuentes-negocio";
   let link = document.getElementById(linkId);
