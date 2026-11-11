@@ -16,7 +16,7 @@
   &:disabled { opacity: .45; cursor: not-allowed; }
   &--primario {
     background: var(--primario);
-    color: #fff;
+    color: var(--texto-primario);
     box-shadow: var(--sombra);
     &:hover:not(:disabled) { background: var(--primario-oscuro); }
   }

@@ -15,7 +15,7 @@
   border-radius: var(--radio);
   transition: border-color .15s, background .15s, transform .15s;
   &:hover { border-color: var(--primario-borde); transform: translateY(-1px); }
-  &.es-seleccionada { border-color: var(--primario); background: var(--primario-muy-suave); box-shadow: 0 0 0 3px var(--primario-suave); }
+  &.es-seleccionada { border-color: var(--primario); background: var(--secundario-suave); box-shadow: 0 0 0 3px var(--primario-suave); }
   &__cuerpo { flex: 1; display: grid; gap: 2px; }
   &__titulo { font-size: 1.05rem; }
   &__detalle { color: var(--texto-suave); font-size: .9rem; }
@@ -30,7 +30,7 @@
   width: 46px; height: 46px;
   border-radius: 50%;
   background: var(--primario);
-  color: #fff;
+  color: var(--texto-primario);
   font-family: $fuente-titulos;
   font-size: 1.2rem;
   &--suave { background: var(--primario-suave); color: var(--primario-oscuro); }

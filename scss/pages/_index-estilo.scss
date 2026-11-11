@@ -34,7 +34,7 @@
       background: var(--superficie);
       border: 1.5px solid var(--borde);
     }
-    &.es-actual { color: var(--primario-oscuro); span { background: var(--primario); border-color: var(--primario); color: #fff; } }
+    &.es-actual { color: var(--primario-oscuro); span { background: var(--primario); border-color: var(--primario); color: var(--texto-primario); } }
     &.es-hecho span { background: var(--primario-suave); border-color: var(--primario-borde); color: var(--primario-oscuro); }
   }
 }
@@ -62,7 +62,7 @@
   &__semana, &__mes { font-size: .78rem; color: var(--texto-suave); text-transform: capitalize; }
   &__numero { font-size: 1.4rem; font-family: $fuente-titulos; }
   &:hover:not(:disabled) { border-color: var(--primario-borde); }
-  &.es-seleccionado { background: var(--primario); border-color: var(--primario); color: #fff; .dia__semana, .dia__mes { color: #fff; } }
+  &.es-seleccionado { background: var(--secundario-suave); border-color: var(--primario); color: var(--texto); .dia__semana, .dia__mes { color: var(--texto-suave); } }
   &:disabled { opacity: .45; cursor: not-allowed; background: transparent; }
 }
 
@@ -78,7 +78,7 @@
   background: var(--superficie);
   font-weight: 800;
   &:hover:not(:disabled):not(.es-seleccionado) { background: var(--primario-muy-suave); }
-  &.es-seleccionado { background: var(--primario); border-color: var(--primario); color: #fff; }
+  &.es-seleccionado { background: var(--primario); border-color: var(--primario); color: var(--texto-primario); }
   &:disabled { border-style: dashed; border-color: var(--borde); color: var(--texto-suave); text-decoration: line-through; background: transparent; cursor: not-allowed; }
 }
 

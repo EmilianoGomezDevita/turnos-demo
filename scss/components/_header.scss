@@ -3,7 +3,7 @@
 
 // Franja fina para aviso de demo
 .aviso-demo {
-  background-color: var(--primario-suave);
+  background-color: var(--secundario-suave);
   color: var(--primario-oscuro);
   font-size: 1rem;
   padding: 6px 12px;
@@ -34,7 +34,7 @@
     font-size: .82rem;
     font-weight: 800;
     color: var(--primario-oscuro);
-    background: var(--primario-suave);
+    background: var(--secundario-suave);
     padding: 6px 12px;
     border-radius: 999px;
     white-space: nowrap;
@@ -55,7 +55,7 @@
     display: grid;
     place-items: center;
     background: var(--primario);
-    color: #fff;
+    color: var(--texto-primario);
     font-family: $fuente-titulos;
     font-size: 1.4rem;
     font-weight: 600;

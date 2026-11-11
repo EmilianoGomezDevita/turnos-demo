@@ -1,10 +1,14 @@
 // Todo el color se deriva de --primario (lo define config.js al cargar)
 :root {
   --primario: #c2677f;
+  --secundario: #f3e3e7;
+  --texto-primario: #fff;
   --primario-oscuro: color-mix(in oklab, var(--primario) 75%, #2a1a1f);
   --primario-suave: color-mix(in oklab, var(--primario) 14%, #fff);
   --primario-muy-suave: color-mix(in oklab, var(--primario) 6%, #fffaf7);
   --primario-borde: color-mix(in oklab, var(--primario) 28%, #fff);
+  --secundario-suave: color-mix(in oklab, var(--secundario) 24%, #fff);
+  --secundario-borde: color-mix(in oklab, var(--secundario) 52%, #fff);
   --fondo: color-mix(in oklab, var(--primario) 5%, #fdf8f4);
   --superficie: #fffdfb;
   --texto: #2e2226;

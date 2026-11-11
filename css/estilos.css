@@ -1,10 +1,14 @@
 @charset "UTF-8";
 :root {
   --primario: #c2677f;
+  --secundario: #f3e3e7;
+  --texto-primario: #fff;
   --primario-oscuro: color-mix(in oklab, var(--primario) 75%, #2a1a1f);
   --primario-suave: color-mix(in oklab, var(--primario) 14%, #fff);
   --primario-muy-suave: color-mix(in oklab, var(--primario) 6%, #fffaf7);
   --primario-borde: color-mix(in oklab, var(--primario) 28%, #fff);
+  --secundario-suave: color-mix(in oklab, var(--secundario) 24%, #fff);
+  --secundario-borde: color-mix(in oklab, var(--secundario) 52%, #fff);
   --fondo: color-mix(in oklab, var(--primario) 5%, #fdf8f4);
   --superficie: #fffdfb;
   --texto: #2e2226;
@@ -156,7 +160,7 @@ a {
 }
 
 .aviso-demo {
-  background-color: var(--primario-suave);
+  background-color: var(--secundario-suave);
   color: var(--primario-oscuro);
   font-size: 1rem;
   padding: 6px 12px;
@@ -188,7 +192,7 @@ a {
   font-size: 0.82rem;
   font-weight: 800;
   color: var(--primario-oscuro);
-  background: var(--primario-suave);
+  background: var(--secundario-suave);
   padding: 6px 12px;
   border-radius: 999px;
   white-space: nowrap;
@@ -211,7 +215,7 @@ a {
   display: grid;
   place-items: center;
   background: var(--primario);
-  color: #fff;
+  color: var(--texto-primario);
   font-family: var(--fuente-titulos, "Fraunces", Georgia, serif);
   font-size: 1.4rem;
   font-weight: 600;
@@ -390,7 +394,7 @@ main {
 }
 .boton--primario {
   background: var(--primario);
-  color: #fff;
+  color: var(--texto-primario);
   box-shadow: var(--sombra);
 }
 .boton--primario:hover:not(:disabled) {
@@ -476,7 +480,7 @@ main {
 }
 .tarjeta-opcion.es-seleccionada {
   border-color: var(--primario);
-  background: var(--primario-muy-suave);
+  background: var(--secundario-suave);
   box-shadow: 0 0 0 3px var(--primario-suave);
 }
 .tarjeta-opcion__cuerpo {
@@ -508,7 +512,7 @@ main {
   height: 46px;
   border-radius: 50%;
   background: var(--primario);
-  color: #fff;
+  color: var(--texto-primario);
   font-family: var(--fuente-titulos, "Fraunces", Georgia, serif);
   font-size: 1.2rem;
 }
@@ -613,7 +617,7 @@ main {
 .progreso__paso.es-actual span {
   background: var(--primario);
   border-color: var(--primario);
-  color: #fff;
+  color: var(--texto-primario);
 }
 .progreso__paso.es-hecho span {
   background: var(--primario-suave);
@@ -659,12 +663,12 @@ main {
   border-color: var(--primario-borde);
 }
 .dia.es-seleccionado {
-  background: var(--primario);
+  background: var(--secundario-suave);
   border-color: var(--primario);
-  color: #fff;
+  color: var(--texto);
 }
 .dia.es-seleccionado .dia__semana, .dia.es-seleccionado .dia__mes {
-  color: #fff;
+  color: var(--texto-suave);
 }
 .dia:disabled {
   opacity: 0.45;
@@ -691,7 +695,7 @@ main {
 .horario.es-seleccionado {
   background: var(--primario);
   border-color: var(--primario);
-  color: #fff;
+  color: var(--texto-primario);
 }
 .horario:disabled {
   border-style: dashed;
@@ -1104,6 +1108,63 @@ main {
 .configuracion-admin input[type=color] {
   min-height: 48px;
   padding: 5px;
+}
+
+.configuracion-admin__paletas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.paleta-color {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 6px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+  cursor: pointer;
+}
+.paleta-color:hover, .paleta-color:focus-visible {
+  border-color: var(--primario);
+}
+.paleta-color span {
+  width: 34px;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--muestra-principal) 0 50%, var(--muestra-secundaria) 50%);
+  border: 1px solid var(--borde);
+}
+
+.configuracion-admin__vista-colores {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--secundario-borde);
+  border-radius: var(--radio-chico);
+  background: var(--superficie);
+  color: var(--texto);
+}
+.configuracion-admin__vista-colores > span:not(.etiqueta-color) {
+  color: var(--texto-suave);
+}
+.configuracion-admin__vista-colores .boton--primario {
+  background: var(--muestra-principal);
+  color: var(--texto-muestra-principal);
+}
+.configuracion-admin__vista-colores .etiqueta-color {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--muestra-secundaria);
+  color: var(--texto-muestra-secundaria);
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
 .logo-editor {
