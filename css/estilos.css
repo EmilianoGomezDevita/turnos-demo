@@ -270,9 +270,9 @@ main {
 
 /* Estilos para el pie */
 .pie {
-  background-color: #181214;
+  background-color: var(--color-footer, #181214);
+  color: var(--color-footer-texto, #c4b5b9);
   border-top: 2px solid var(--primario);
-  color: #c4b5b9;
   padding: 1.2rem 1rem;
   width: 100%;
   margin-top: auto;

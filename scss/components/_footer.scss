@@ -15,9 +15,9 @@ main {
 
 /* Estilos para el pie */
 .pie {
-    background-color: #181214; // Fondo oscuro profundo que combina con tus tonos cálidos
+    background-color: var(--color-footer, #181214);
+    color: var(--color-footer-texto, #c4b5b9);
     border-top: 2px solid var(--primario); // Línea superior con el color principal de tu tema
-    color: #c4b5b9; // Texto claro y legible sobre fondo oscuro
     padding: 1.2rem 1rem;
     width: 100%;
     margin-top: auto;
