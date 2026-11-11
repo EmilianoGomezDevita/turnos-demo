@@ -86,7 +86,7 @@ export const configuracion = {
   },
 
   creditos : {
-    texto: "Sistema por..." //Nombre de local
+    texto: "Sistema de turnos online"
   },
 
   modoDemo: true,
