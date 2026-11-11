@@ -7,9 +7,22 @@ import { logoADataUrl } from "../logo.js";
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const FUENTES_TITULOS = ["Fraunces", "Playfair Display", "Lora", "DM Serif Display"];
 const FUENTES_TEXTO = ["Nunito", "Montserrat", "Open Sans", "Lato"];
+const PALETAS = [
+  { nombre: "Grafito + mostaza", principal: "#202124", secundario: "#F4C542" },
+  { nombre: "Rosa + marfil", principal: "#C2677F", secundario: "#FFF9F2" },
+  { nombre: "Cian + café", principal: "#18AFC0", secundario: "#70452F" },
+  { nombre: "Azul + coral", principal: "#315A9B", secundario: "#F28C78" },
+];
 
 function opciones(fuentes, actual) {
   return fuentes.map(fuente => `<option value="${escapar(fuente)}" ${actual === fuente ? "selected" : ""}>${escapar(fuente)}</option>`).join("");
+}
+
+function colorTexto(hex) {
+  const canales = hex.slice(1).match(/.{2}/g).map(canal => parseInt(canal, 16) / 255);
+  const luminancia = canales.map(canal => canal <= 0.04045 ? canal / 12.92 : ((canal + 0.055) / 1.055) ** 2.4)
+    .reduce((total, canal, i) => total + canal * [0.2126, 0.7152, 0.0722][i], 0);
+  return luminancia > 0.42 ? "#2E2226" : "#FFFFFF";
 }
 
 function filaHorario(dia, horarios) {
@@ -27,6 +40,8 @@ export async function renderConfiguracionAdmin(contenedor, negocio) {
   let logoDataActual = negocio.logoData || "";
   let logoUrlActual = negocio.logoUrl || "";
   let logoModificado = false;
+  const colorPrincipalInicial = /^#[0-9a-f]{6}$/i.test(negocio.colorPrincipal || "") ? negocio.colorPrincipal : "#C2677F";
+  const colorSecundarioInicial = /^#[0-9a-f]{6}$/i.test(negocio.colorSecundario || "") ? negocio.colorSecundario : "#F3E3E7";
   contenedor.innerHTML = `<section class="tarjeta"><h2 class="paso__titulo">Negocio</h2><p class="aviso">Cargando configuración…</p></section>`;
   contenedor.innerHTML = `<form id="form-configuracion-negocio" class="tarjeta configuracion-admin">
     <div><h2 class="paso__titulo">Datos del local</h2><p class="aviso">Estos datos aparecen en la reserva y en el panel.</p></div>
@@ -41,7 +56,10 @@ export async function renderConfiguracionAdmin(contenedor, negocio) {
 
     <div><h2 class="paso__titulo">Identidad visual</h2><p class="aviso">Elegí una imagen de tu celular o computadora. Se achica automáticamente; también podés dejar la inicial.</p></div>
     <div class="configuracion-admin__grilla">
-      <label class="campo"><span>Color principal</span><input name="colorPrincipal" type="color" value="${/^#[0-9a-f]{6}$/i.test(negocio.colorPrincipal || "") ? negocio.colorPrincipal : "#C2677F"}"></label>
+      <label class="campo"><span>Color principal</span><input name="colorPrincipal" type="color" value="${colorPrincipalInicial}"><small>Para botones y acciones destacadas.</small></label>
+      <label class="campo"><span>Color secundario</span><input name="colorSecundario" type="color" value="${colorSecundarioInicial}"><small>Para fondos suaves, etiquetas y detalles.</small></label>
+      <div class="campo campo--ancho"><span>Combinaciones sugeridas</span><div class="configuracion-admin__paletas">${PALETAS.map((paleta, i) => `<button type="button" class="paleta-color" data-paleta="${i}" aria-label="Usar paleta ${escapar(paleta.nombre)}"><span style="--muestra-principal:${paleta.principal};--muestra-secundaria:${paleta.secundario}"></span>${escapar(paleta.nombre)}</button>`).join("")}</div></div>
+      <div class="campo campo--ancho"><span>Vista previa</span><div class="configuracion-admin__vista-colores" id="vista-previa-colores"><strong>Nombre del negocio</strong><span>Texto de ejemplo</span><button type="button" class="boton boton--primario">Botón principal</button><span class="etiqueta-color">Detalle secundario</span></div></div>
       <label class="campo"><span>Inicial del logo</span><input name="inicial" maxlength="1" value="${escapar(negocio.inicial || negocio.nombre?.[0] || "?")}"></label>
       <div class="campo campo--ancho logo-editor">
         <span>Logo del negocio</span>
@@ -76,6 +94,24 @@ export async function renderConfiguracionAdmin(contenedor, negocio) {
   </form>`;
 
   const form = contenedor.querySelector("#form-configuracion-negocio");
+  const colorPrincipal = form.elements.colorPrincipal;
+  const colorSecundario = form.elements.colorSecundario;
+  const vistaColores = form.querySelector("#vista-previa-colores");
+  const actualizarVistaColores = () => {
+    vistaColores.style.setProperty("--muestra-principal", colorPrincipal.value);
+    vistaColores.style.setProperty("--muestra-secundaria", colorSecundario.value);
+    vistaColores.style.setProperty("--texto-muestra-principal", colorTexto(colorPrincipal.value));
+    vistaColores.style.setProperty("--texto-muestra-secundaria", colorTexto(colorSecundario.value));
+  };
+  colorPrincipal.addEventListener("input", actualizarVistaColores);
+  colorSecundario.addEventListener("input", actualizarVistaColores);
+  form.querySelectorAll("[data-paleta]").forEach(boton => boton.addEventListener("click", () => {
+    const paleta = PALETAS[Number(boton.dataset.paleta)];
+    colorPrincipal.value = paleta.principal;
+    colorSecundario.value = paleta.secundario;
+    actualizarVistaColores();
+  }));
+  actualizarVistaColores();
   const archivoLogo = form.querySelector("#archivo-logo");
   const previewLogo = form.querySelector("#logo-preview");
   const sinImagen = form.querySelector("#logo-sin-imagen");
@@ -139,6 +175,7 @@ export async function renderConfiguracionAdmin(contenedor, negocio) {
       direccion: form.elements.direccion.value.trim(),
       whatsapp: form.elements.whatsapp.value.trim(),
       colorPrincipal: form.elements.colorPrincipal.value,
+      colorSecundario: form.elements.colorSecundario.value,
       inicial: form.elements.inicial.value.trim() || form.elements.nombre.value.trim()[0],
       fuenteTitulos: form.elements.fuenteTitulos.value,
       fuenteTexto: form.elements.fuenteTexto.value,
