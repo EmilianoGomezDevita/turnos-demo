@@ -10,7 +10,7 @@ export const configuracion = {
     zona: "Gran Buenos Aires",
     inicial: "D", // letra que se muestra en el logo circular
     logoUrl: "", // opcional: ruta a una imagen; si está vacío se usa la inicial
-    colorPrincipal: "#0000",
+    colorPrincipal: "#000",
     fuenteTitulos: "Fraunces",
     fuenteTexto: "Nunito",
     whatsapp: "5491155550000", // formato internacional, sin + ni espacios
