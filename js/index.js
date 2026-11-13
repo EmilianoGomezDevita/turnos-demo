@@ -129,7 +129,7 @@ function renderHorarios(lista, horaSeleccionada) {
     return `<p class="aviso">${escapar(textos.sinHorarios)}</p>`;
   }
   return `<div class="horarios">${lista.map(({ hora }) =>
-    `<button type="button" class="horario${hora === horaSeleccionada ? " es-seleccionado" : ""}" data-hora="${escapar(hora)}">${escapar(hora)}</button>`
+    `<button type="button" class="horario${hora === horaSeleccionada ? " es-seleccionado" : ""}" data-hora="${escapar(hora)}"aria-pressed="${hora === horaSeleccionada}">${escapar(hora)}</button>`
   ).join("")}</div>`;
 }
 
