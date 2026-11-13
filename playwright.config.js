@@ -28,9 +28,12 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: 'http://localhost:3000',
+    actionTimeout: 5000,
+    trace: 'on',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    
+    //trace: 'on-first-retry',
   },
 
   /* El flujo inicial corre en Chromium para no repetir reservas por navegador. */
@@ -38,6 +41,10 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    { 
+      name: 'mobile', 
+      use: { ...devices['Pixel 7'] } 
     },
 
   ],
