@@ -1,6 +1,12 @@
 @use "../variables" as *;
 
-.controles { display: grid; gap: 14px; margin-bottom: 18px; }
+.controles {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .pestanas {
   display: inline-flex;
   gap: 4px;
@@ -8,7 +14,12 @@
   background: var(--primario-suave);
   border-radius: 999px;
   width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
 }
+
 .pestana {
   border: 0;
   background: transparent;
@@ -16,8 +27,11 @@
   border-radius: 999px;
   font-weight: 800;
   color: var(--primario-oscuro);
+  flex: none;
+  white-space: nowrap;
   &.es-activa { background: var(--superficie); box-shadow: var(--sombra); }
 }
+
 .navegacion {
   display: flex;
   flex-wrap: wrap;
