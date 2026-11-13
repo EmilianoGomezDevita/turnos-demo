@@ -78,7 +78,13 @@
   background: var(--superficie);
   font-weight: 800;
   &:hover:not(:disabled):not(.es-seleccionado) { background: var(--primario-muy-suave); }
-  &.es-seleccionado { background: var(--primario); border-color: var(--primario); color: var(--texto-primario); }
+  &.es-seleccionado {
+    background: var(--primario);
+    border-color: var(--primario);
+    color: var(--texto-primario);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primario) 30%, transparent);
+    transform: scale(1.04);
+  }
   &:disabled { border-style: dashed; border-color: var(--borde); color: var(--texto-suave); text-decoration: line-through; background: transparent; cursor: not-allowed; }
 }
 

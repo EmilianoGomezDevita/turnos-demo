@@ -696,6 +696,8 @@ main {
   background: var(--primario);
   border-color: var(--primario);
   color: var(--texto-primario);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primario) 30%, transparent);
+  transform: scale(1.04);
 }
 .horario:disabled {
   border-style: dashed;
